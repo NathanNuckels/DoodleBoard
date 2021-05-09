@@ -12,6 +12,7 @@ class Proj:
     def __init__(self):
         self.tk = Tk()
         self.tk.withdraw()
+        self.tk.title("Draw Board")
         self.looping = True
         self.console = Text(self.tk, width=80, height=10)
         self.new = Button(self.tk, text="New", command=self.newProj)
@@ -24,7 +25,7 @@ class Proj:
         self.open.grid(row=1, column=1, ipadx=20, sticky=NSEW)
         self.gitbutton.grid(row=2, column=1, ipadx=20, sticky=NSEW)
         self.quitbutton.grid(row=3, column=1, ipadx=20, sticky=NSEW)
-        self.stopped=False
+        self.openfile=False
         self.proj=None
         self.tmptk=Tk()
         self.tmptk.withdraw()
@@ -44,6 +45,8 @@ class Proj:
         self.console.insert(END, self.proj + "\n")
         if os.path.isfile(self.proj + "project.dlp"):
             self.console.insert(END, self.proj + "project.dlp")
+            self.openfile=True
+            self.looping=False
         else:
             self.console.insert(END, "Failed to load. no 'project.dlp' file.\n")
 
@@ -62,7 +65,6 @@ class Proj:
 
     def stop(self):
         self.looping = False
-        self.stopped=True
 
     def show(self):
         self.tk.deiconify()

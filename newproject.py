@@ -44,7 +44,7 @@ def saveFile():
             filedata += key + "|" + proj[key] + "\n"
         if not os.path.isdir(projFolder):
             os.mkdir(projFolder)
-        with open(projFolder + "Data.dll", 'w+') as f:
+        with open(projFolder + "project.dlp", 'w+') as f:
             f.write(filedata)
         showinfo("Sucsess", "Project created.")
         return True
