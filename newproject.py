@@ -1,14 +1,16 @@
 from tkinter import *
 from tkinter.messagebox import showinfo
 import time
-
+import sys
+import os
+tk=None
 objects=[]
 def saveFile():
     global objects
-    print(objects)
+    global tk
     if objects[1][2].get()=="":
         showinfo("No filename","You must enter a directory. Although there is a project file, this program does other things. Create a folder in the same location as this file and enter its name.")
-    elif objects[1][2].get().endswith("/"):
+    elif not objects[1][2].get().endswith("/"):
         showinfo("Is it REALLY a folder?","Prove it by typeing a / at the end")
     elif objects[1][0].get()=="":
         showinfo("No Canvas width", "You must enter the canvas width. 1920 or 1280 are good")
@@ -19,7 +21,20 @@ def saveFile():
     elif not objects[1][1].get().isnumeric():
         showinfo("NaN","The height must be a number")
     else:
-        showinfo("All clear","looks good to me.")
+        projFolder=objects[1][2].get()
+        proj={
+            'Width':objects[1][0].get(),
+            'Height':objects[1][1].get()
+        }
+        filedata=""
+        for key in proj:
+            filedata+=key+"|"+proj[key]+"\n"
+        if not os.path.isdir(projFolder):
+            os.mkdir(projFolder)
+        with open(projFolder+"Data.dll",'w+') as f:
+            f.write(filedata)
+        showinfo("Sucsess","Project created.")
+        tk.destroy()
 
 def new():
     global objects
@@ -53,4 +68,4 @@ def new():
         tk.update()
         time.sleep(1/60)
 
-new()
+#new()
