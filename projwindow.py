@@ -61,7 +61,7 @@ class Proj:
 
     def git(self):
         self.console.insert(END,"Opened Github. read the latiest version and compare it with your version.\n")
-        webbrowser.open("https://github.com/NathanNuckels/DoodleBoard/blob/master/README.md", new=1)
+        webbrowser.open("https://github.com/NathanNuckels/DoodleBoard/", new=1)
 
     def stop(self):
         self.looping = False
