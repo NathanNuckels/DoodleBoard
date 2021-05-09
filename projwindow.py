@@ -24,6 +24,11 @@ class Proj:
         self.open.grid(row=1, column=1, ipadx=20, sticky=NSEW)
         self.gitbutton.grid(row=2, column=1, ipadx=20, sticky=NSEW)
         self.quitbutton.grid(row=3, column=1, ipadx=20, sticky=NSEW)
+        self.stopped=False
+        self.proj=None
+        self.tmptk=Tk()
+        self.tmptk.withdraw()
+        self.pathinput=None
         self.console.insert(END,"Welcome to DoodleBoard. Current version: ")
         with open('version.dll','r+') as f:
             self.console.insert(END,f.read()+"\n")
@@ -32,15 +37,24 @@ class Proj:
         self.console.insert(END,"Creating new project...\n")
         newproject.new()
 
+    def letsgo(self):
+        self.tmptk.withdraw()
+        self.proj = self.pathinput.get()
+        self.proj += "/"
+        self.console.insert(END, self.proj + "\n")
+        if os.path.isfile(self.proj + "project.dlp"):
+            self.console.insert(END, self.proj + "project.dlp")
+        else:
+            self.console.insert(END, "Failed to load. no 'project.dlp' file.\n")
+
     def openFile(self):
         self.console.insert(END,"Opening project...\n")
-        proj=filedialog.askdirectory()
-        proj+="/"
-        self.console.insert(END,proj+"\n")
-        if os.path.isfile(proj+"project.dlp"):
-            self.console.insert(END,proj+"project.dlp")
-        else:
-            self.console.insert(END,"Failed to load. no 'project.dlp' file.\n")
+        self.pathinput=Entry(self.tmptk)
+        go=Button(self.tmptk,text="Let's Go!",command=self.letsgo)
+        self.pathinput.grid(row=0,column=0,padx=20,pady=20)
+        go.grid(row=0,column=1,padx=20,pady=20)
+        self.tmptk.deiconify()
+
 
     def git(self):
         self.console.insert(END,"Opened Github. read the latiest version and compare it with your version.\n")
@@ -48,6 +62,7 @@ class Proj:
 
     def stop(self):
         self.looping = False
+        self.stopped=True
 
     def show(self):
         self.tk.deiconify()
@@ -57,3 +72,4 @@ class Proj:
 
     def loop(self):
         self.tk.update()
+        self.tmptk.update()
